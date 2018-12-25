@@ -104,7 +104,7 @@ class App extends Component {
         this.setState({
           messages: [
             ...this.state.messages,
-            <p className="typewriter" key={+new Date()}>[{+new Date()}] {response.data.text}</p>
+            <p key={+new Date()}>[{+new Date()}] {response.data.text}</p>
           ]
         });
         this.chatBox.scrollIntoView()
