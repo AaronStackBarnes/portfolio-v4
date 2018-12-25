@@ -4,7 +4,7 @@ import startUpText from "./startUpText";
 import asb from './img/asb.png';
 import "./App.css";
 
-const server = "http://localhost:3000";
+const server = "https://aaron-stack.herokuapp.com";
 
 class App extends Component {
   state = {
@@ -45,7 +45,8 @@ class App extends Component {
 
     setTimeout(()=>{
       this.setState({
-        loadingText: "Loaded. Thanks for scrolling back up."
+        loadingText: "Loaded. Thanks for scrolling back up.",
+        text: "Please say hello..."
       })
     },7000)
   }
@@ -96,7 +97,9 @@ class App extends Component {
           ...this.state.messages,
           `[${+new Date()}] ${response.data.text}`
         ]
-      });
+      },
+      this.chatBox.scrollIntoView()
+    );
     } catch (error) {
       console.error(error);
     }

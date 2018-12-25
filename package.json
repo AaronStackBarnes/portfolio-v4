@@ -1,11 +1,12 @@
 {
-  "name": "yoda-bot",
+  "name": "Aaron_Stack_Portfolio",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "cd front-end && yarn build"
   },
   "keywords": [],
   "author": "",
