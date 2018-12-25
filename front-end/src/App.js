@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios"
+import Resume from "./Resume";
 import startUpText from "./startUpText";
 import asb from './img/asb.png';
 import "./App.css";
@@ -46,9 +47,9 @@ class App extends Component {
     setTimeout(()=>{
       this.setState({
         loadingText: "Loaded. Thanks for scrolling back up.",
-        text: "Please say hello..."
+        messages: [...this.state.messages, <p className="typewriter" key={+new Date()}>Well, are you going to say hello...</p>]
       })
-    },7000)
+    },11000)
   }
   
   displayBoot = () => {
@@ -92,14 +93,22 @@ class App extends Component {
         text: message
       });
 
-      this.setState({
-        messages: [
-          ...this.state.messages,
-          `[${+new Date()}] ${response.data.text}`
-        ]
-      },
-      this.chatBox.scrollIntoView()
-    );
+      if (response.data.text === 'resume') {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            <Resume/>
+          ]
+        });
+      } else {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            <p className="typewriter" key={+new Date()}>[{+new Date()}] {response.data.text}</p>
+          ]
+        });
+        this.chatBox.scrollIntoView()
+      }
     } catch (error) {
       console.error(error);
     }
