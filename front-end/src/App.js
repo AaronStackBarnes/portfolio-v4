@@ -10,6 +10,7 @@ const server = "https://aaron-stack.herokuapp.com";
 class App extends Component {
   state = {
     text: "",
+    typeBox: "",
     messages: [],
     loadingText: "Initializing AI",
     loadingTextVisibility: "hidden"
@@ -46,10 +47,12 @@ class App extends Component {
 
     setTimeout(()=>{
       this.setState({
-        loadingText: "Loaded. Thanks for scrolling back up.",
-        messages: [...this.state.messages, <p className="typewriter" key={+new Date()}>Well, are you going to say hello...</p>]
+        loadingText: "Loaded. Thanks for scrolling back up."
+      
       })
+      this.typewriter("Well are you going to say hello...")
     },11000)
+
   }
   
   displayBoot = () => {
@@ -101,18 +104,36 @@ class App extends Component {
           ]
         });
       } else {
-        this.setState({
-          messages: [
-            ...this.state.messages,
-            <p key={+new Date()}>[{+new Date()}] {response.data.text}</p>
-          ]
-        });
+        this.typewriter(response.data.text)
         this.chatBox.scrollIntoView()
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  typewriter = (text) => {
+    let i = 0
+    let speed = 15
+    let message = `[AM] ${text}`
+  
+     let type = () => {
+      if (i < message.length) {
+          this.setState({typeBox: this.state.typeBox + message[i]})
+          i++
+          setTimeout(type, speed);
+        } else {
+          this.setState({
+            messages: [
+              ...this.state.messages,
+              <p key={+new Date()}>{message}</p>
+            ],
+            typeBox: ""
+          });
+        }
+      } 
+    type()
+  }
 
   render() {
     return (
@@ -136,7 +157,7 @@ class App extends Component {
           <p className="clear"><br /></p>
 
           {this.state.messages}
-
+          <p>{this.state.typeBox}</p>
             <form onSubmit={this.handleSubmit}>
               <label >Message >></label><textarea onKeyPress={this.handleKeyPress} value={this.state.text} onChange={this.handleTextChange} id="text" rows="1"></textarea><br /><br /><br />
               <input ref={chatBox => { this.chatBox = chatBox; }} type="submit" value="Submit" />
