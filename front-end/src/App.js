@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios"
 import Resume from "./Resume";
+import Portfolio from "./Portfolio";
 import startUpText from "./startUpText";
 import asb from './img/asb.png';
 import "./App.css";
@@ -101,6 +102,13 @@ class App extends Component {
           messages: [
             ...this.state.messages,
             <Resume/>
+          ]
+        });
+      } else if (response.data.text === 'portfolio') {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            <Portfolio/>
           ]
         });
       } else {
