@@ -15,7 +15,7 @@ const Activity = activity => {
         <p>{`${activity.postedBy} posted to ${activity.instagram}`}:</p>
 
         <img
-          alt="bot posted picture"
+          alt="bot posted"
           src={`http://167.99.235.109${activity.image.replace(
             "downloads",
             ""

@@ -5,7 +5,7 @@ const Bot = bot => {
     <div>
       <div className="profileHeader">
         <img
-          alt="bot profile picture"
+          alt="bot profile"
           src={`http://167.99.235.109${bot.profilePicturePath.replace(
             "/downloads",
             ""
