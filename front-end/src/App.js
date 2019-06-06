@@ -95,13 +95,7 @@ class App extends Component {
       return;
     }
 
-    if (this.state.text === "bots ls") {
-      this.botFetcher("bots");
-    } else if (this.state.text === "bots tail -100") {
-      this.botFetcher("activities");
-    } else {
-      this.submitMessageToServer(this.state.text);
-    }
+    this.submitMessageToServer(this.state.text);
 
     this.setState({
       messages: [
@@ -124,16 +118,22 @@ class App extends Component {
         text: message
       });
 
-      if (response.data.text === "resume") {
+      let resText = response.data.text;
+
+      if (resText === "resume") {
         this.setState({
           messages: [...this.state.messages, <Resume />]
         });
-      } else if (response.data.text === "portfolio") {
+      } else if (resText === "portfolio") {
         this.setState({
           messages: [...this.state.messages, <Portfolio />]
         });
+      } else if (resText === "getBots") {
+        this.botFetcher("bots");
+      } else if (resText === "activitiesGet") {
+        this.botFetcher("activities");
       } else {
-        this.typewriter(response.data.text);
+        this.typewriter(resText);
         this.chatBox.scrollIntoView();
       }
     } catch (error) {
