@@ -9,8 +9,8 @@ import Activity from "./Activity";
 import asb from "./img/asb.png";
 import "./App.css";
 
-// const server = "https://aaron-stack.herokuapp.com";
-const server = "http://localhost:3030";
+const server = "https://aaron-stack.herokuapp.com";
+// const server = "http://localhost:3030";
 
 class App extends Component {
   state = {
