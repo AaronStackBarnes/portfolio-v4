@@ -3,27 +3,6 @@ const startUpText = `Uncompressing Linux... done, booting the kernel.
 [    0.000000] Initializing cgroup subsys cpu
 [    0.000000] Initializing cgroup subsys cpuacct
 [    0.000000] Linux version 3.18.10+ (dc4@dc4-XPS13-9333) (gcc version 4.8.3 20140303 (prerelease) (crosstool-NG linaro-1.13.1+bzr2650 - Linaro GCC 2014.03)) #775 PREEMPT Thu Apr 2 18:10:12 BST 2015
-[    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
-[    0.000000] Machine model: Raspberry Pi Model B
-[    0.000000] cma: Reserved 8 MiB at 0x0b800000
-[    0.000000] Memory policy: Data cache writeback
-[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 48768
-[    0.000000] Kernel command line: dma.dmachans=0x7f35 bcm2708_fb.fbwidth=656 bcm2708_fb.fbheight=416 bcm2708.boardrev=0x2 bcm2708.serial=0xb51cb961 smsc95x.macaddr=B8:27:EB:1C:B9:61 bcm2708_fb.fbswap=1 sdhci-bcm2708.emmc_clock_freq=250000000 vc_mem.mem_base=0xec00000 vc_mem.mem_size=0x10000000  dwc_otg.lpm_enabe=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
-[    0.000000] PID hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.000000] Dentry cache hash table entries: 32768 (order: 5, 131072 bytes)
-[    0.000000] Inode-cache hash table entries: 16384 (order: 4, 65536 bytes)
-[    0.000000] Memory: 177372K/196608K available (5885K kernel code, 348K rwdata, 1868K rodata, 340K init, 733K bss, 19236K reserved)
-[    0.000000] Virtual kernel memory layout:
-[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
-[    0.000000]     fixmap  : 0xffc00000 - 0xffe00000   (2048 kB)
-[    0.000000]     vmalloc : 0xcc800000 - 0xff000000   ( 808 MB)
-[    0.000000]     lowmem  : 0xc0000000 - 0xcc000000   ( 192 MB)
-[    0.000000]     modules : 0xbf000000 - 0xc0000000   (  16 MB)
-[    0.000000]       .text : 0xc0008000 - 0xc079a78c   (7754 kB)
-[    0.000000]       .init : 0xc079b000 - 0xc07f0000   ( 340 kB)
-[    0.000000]       .data : 0xc07f0000 - 0xc084711c   ( 349 kB)
-[    0.000000]        .bss : 0xc084711c - 0xc08fe848   ( 734 kB)
 [    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
 [    0.000000] Preemptible hierarchical RCU implementation.
 [    0.000000] NR_IRQS:522
@@ -122,66 +101,6 @@ const startUpText = `Uncompressing Linux... done, booting the kernel.
 [    1.930218] Dedicated Tx FIFOs mode
 [    1.935666] WARN::dwc_otg_hcd_init:1047: FIQ DMA bounce buffers: virt = 0xcbc14000 dma = 0x4bc14000 len=9024
 [    1.948724] FIQ FSM acceleration enabled for :
-[    1.948724] Non-periodic Split Transactions
-[    1.948724] Periodic Split Transactions
-[    1.948724] High-Speed Isochronous Endpoints
-[    1.971866] WARN::hcd_init_fiq:412: FIQ on core 0 at 0xc03fad8c
-[    1.979466] WARN::hcd_init_fiq:413: FIQ ASM at 0xc03fb064 length 36
-[    1.987400] WARN::hcd_init_fiq:438: MPHI regs_base at 0xcc806000
-[    1.995104] dwc_otg bcm2708_usb: DWC OTG Controller
-[    2.001651] dwc_otg bcm2708_usb: new USB bus registered, assigned bus number 1
-[    2.010630] dwc_otg bcm2708_usb: irq 32, io mem 0x00000000
-[    2.017815] Init: Port Power? op_state=1
-[    2.023378] Init: Power Port (0)
-[    2.028537] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
-[    2.037033] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-[    2.045927] usb usb1: Product: DWC OTG Controller
-[    2.052273] usb usb1: Manufacturer: Linux 3.18.10+ dwc_otg_hcd
-[    2.059707] usb usb1: SerialNumber: bcm2708_usb
-[    2.066889] hub 1-0:1.0: USB hub found
-[    2.072503] hub 1-0:1.0: 1 port detected
-[    2.079264] usbcore: registered new interface driver usb-storage
-[    2.087479] mousedev: PS/2 mouse device common for all mice
-[    2.095606] bcm2835-cpufreq: min=700000 max=700000
-[    2.102496] sdhci: Secure Digital Host Controller Interface driver
-[    2.110280] sdhci: Copyright(c) Pierre Ossman
-[    2.116621] DMA channels allocated for the MMC driver
-[    2.152126] Load BCM2835 MMC driver
-[    2.159221] sdhci-pltfm: SDHCI platform and OF driver helper
-[    2.175080] ledtrig-cpu: registered to indicate activity on CPUs
-[    2.183143] hidraw: raw HID events driver (C) Jiri Kosina
-[    2.194831] usbcore: registered new interface driver usbhid
-[    2.203214] usbhid: USB HID core driver
-[    2.211223] TCP: cubic registered
-[    2.217453] Initializing XFRM netlink socket
-[    2.225619] NET: Registered protocol family 17
-[    2.231956] Key type dns_resolver registered
-[    2.239713] registered taskstats version 1
-[    2.245791] vc-sm: Videocore shared memory driver
-[    2.252251] [vc_sm_connected_init]: start
-[    2.259102] [vc_sm_connected_init]: end - returning 0
-[    2.267761] Waiting for root device /dev/mmcblk0p2...
-[    2.274904] Indeed it is in host mode hprt0 = 00021501
-[    2.286814] mmc0: host does not support reading read-only switch, assuming write-enable
-[    2.314220] mmc0: new high speed SDHC card at address b368
-[    2.332171] mmcblk0: mmc0:b368 SMI   15.0 GiB
-[    2.343287]  mmcblk0: p1 p2
-[    2.395467] EXT4-fs (mmcblk0p2): INFO: recovery required on readonly filesystem
-[    2.404706] EXT4-fs (mmcblk0p2): write access will be enabled during recovery
-[    2.460279] EXT4-fs (mmcblk0p2): recovery complete
-[    2.472867] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
-[    2.484425] usb 1-1: new high-speed USB device number 2 using dwc_otg
-[    2.492779] VFS: Mounted root (ext4 filesystem) readonly on device 179:2.
-[    2.501971] Indeed it is in host mode hprt0 = 00001101
-[    2.509409] devtmpfs: mounted
-[    2.523251] Freeing unused kernel memory: 340K (c079b000 - c07f0000)
-[    2.722646] usb 1-1: New USB device found, idVendor=0424, idProduct=9512
-[    2.732631] usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-[    2.746803] hub 1-1:1.0: USB hub found
-[    2.753774] hub 1-1:1.0: 3 ports detected
-[    3.032458] usb 1-1.1: new high-speed USB device number 3 using dwc_otg
-[    3.142744] usb 1-1.1: New USB device found, idVendor=0424, idProduct=ec00
-[    3.151599] usb 1-1.1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
 [    3.174835] smsc95xx v1.0.4
 [    3.260006] smsc95xx 1-1.1:1.0 eth0: register 'smsc95xx' at usb-bcm2708_usb-1.1, smsc95xx USB 2.0 Ethernet, b8:27:eb:1c:b9:61
 [    4.220552] udevd[159]: starting version 175
@@ -189,6 +108,6 @@ const startUpText = `Uncompressing Linux... done, booting the kernel.
 [   10.867335] EXT4-fs (mmcblk0p2): re-mounted. Opts: (null)
 [   11.810617] random: nonblocking pool is initialized
 [   11.849114] Driver for 1-wire Dallas network protocol.
-[   12.167722] i2c /dev entries driver`
+[   12.167722] i2c /dev entries driver`;
 
-export default startUpText
+export default startUpText;

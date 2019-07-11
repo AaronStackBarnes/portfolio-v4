@@ -9,13 +9,16 @@ import Activity from "./Activity";
 import asb from "./img/asb.png";
 import "./App.css";
 
-const server = "https://aaron-stack.herokuapp.com";
-// const server = "http://localhost:3030";
+// const server = "https://aaron-stack.herokuapp.com";
+const server = "http://localhost:3030";
 
 class App extends Component {
   state = {
     text: "",
     typeBox: "",
+    botMakerStep: 0,
+    facebookAccount: "",
+    facebookPassword: "",
     messages: [],
     loadingText: "Initializing AI",
     loadingTextVisibility: "hidden"
@@ -107,8 +110,10 @@ class App extends Component {
   };
 
   handleKeyPress = event => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && this.state.botMakerStep === 0) {
       this.handleSubmit(event);
+    } else if (event.key === "Enter") {
+      this.botCreator();
     }
   };
 
@@ -129,9 +134,11 @@ class App extends Component {
           messages: [...this.state.messages, <Portfolio />]
         });
       } else if (resText === "getBots") {
-        this.botFetcher("bots");
+        this.botFetcher("getBots");
       } else if (resText === "activitiesGet") {
         this.botFetcher("activities");
+      } else if (resText === "postBot") {
+        this.setState({ botMakerStep: 1 }, this.botCreator);
       } else {
         this.typewriter(resText);
         this.chatBox.scrollIntoView();
@@ -142,44 +149,93 @@ class App extends Component {
   };
 
   botFetcher = async type => {
-    try {
-      const response = await axios.post(server + "/bots", {
-        type: type
-      });
+    let response = await axios.get(server + "/bots");
 
-      if (!response.data || !response.data.result) {
+    if (
+      response &&
+      type === "getBots" &&
+      response.data &&
+      response.data.result &&
+      response.data.result.accounts
+    ) {
+      this.setState({
+        messages: [
+          ...this.state.messages,
+          ...response.data.result.accounts.map((account, i) => (
+            <Bot key={`${account._id}_${+new Date()}`} {...account} />
+          ))
+        ]
+      });
+    }
+
+    if (
+      response &&
+      type === "activities" &&
+      response.data &&
+      response.data.result &&
+      response.data.result.accounts
+    ) {
+      this.setState({
+        messages: [
+          ...this.state.messages,
+          ...response.data.result.accounts.map((account, i) => (
+            <Activity key={`${account._id}_${+new Date()}`} {...account} />
+          ))
+        ]
+      });
+    }
+  };
+
+  botCreator = async () => {
+    if (this.state.botMakerStep === 1) {
+      this.setState({ botMakerStep: 2 });
+      this.typewriter("please enter bot facebook email");
+      this.chatBox.scrollIntoView();
+    } else if (this.state.botMakerStep === 2) {
+      if (!this.state.text) {
         return;
       }
-
-      if (
-        response.data.result.bots &&
-        response.data.result.bots.length &&
-        type === "bots"
-      ) {
-        this.setState({
-          messages: [
-            ...this.state.messages,
-            ...response.data.result.bots.map((datum, i) => (
-              <Bot key={`${i}A`} {...datum} />
-            ))
-          ]
+      this.setState({
+        facebookAccount: this.state.text,
+        text: "",
+        botMakerStep: 3
+      });
+      this.typewriter(this.state.text);
+      this.typewriter("please enter bot facebook password");
+      this.chatBox.scrollIntoView();
+    } else if (this.state.botMakerStep === 3) {
+      this.setState(
+        {
+          facebookPassword: this.state.text,
+          text: "",
+          botMakerStep: 4
+        },
+        this.botCreator
+      );
+      this.typewriter(this.state.text);
+      this.typewriter("attempting to create bot");
+      this.chatBox.scrollIntoView();
+    } else if (this.state.botMakerStep === 4) {
+      this.typewriter(
+        `curl -X {email: ${this.state.facebookAccount.trim()} password: ${this.state.facebookPassword.trim()}}`
+      );
+      this.chatBox.scrollIntoView();
+      try {
+        let response = await axios.post(server + "/bots", {
+          facebookAccount: this.state.facebookAccount.trim(),
+          facebookPassword: this.state.facebookPassword.trim()
         });
-      } else if (
-        response.data.result.activities &&
-        response.data.result.activities.length &&
-        type === "activities"
-      ) {
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      } finally {
         this.setState({
-          messages: [
-            ...this.state.messages,
-            ...response.data.result.activities.map((datum, i) => (
-              <Activity key={`${i}A`} {...datum} />
-            ))
-          ]
+          facebookAccount: "",
+          facebookPassword: "",
+          text: "",
+          botMakerStep: 0
         });
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 

@@ -20,4 +20,7 @@ app.use(function(req, res, next) {
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
 app.post("/messages", processNewMessage);
-app.post("/bots", bots);
+app.get("/bots", bots.get);
+app.post("/bots", bots.post);
+app.get("/messages", bots.messages);
+app.get("/stats", bots.stats);
