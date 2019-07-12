@@ -417,6 +417,7 @@ a.button:hover {
 @media only screen and (max-width: 600px) {
   .callout {
     margin: 5px;
+    padding: 5px;
   }
 }
 
