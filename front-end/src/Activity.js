@@ -9,6 +9,10 @@ const Match = match => {
     (a, b) => moment(a.sent_date) - moment(b.sent_date)
   );
 
+  if (photos && photos.length && photos.length > 3) {
+    photos = photos.slice(0, 3);
+  }
+
   return (
     <div className="match">
       <p>Name: {name}</p>

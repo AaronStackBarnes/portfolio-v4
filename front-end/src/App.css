@@ -414,11 +414,17 @@ a.button:hover {
   border: 4px solid red;
 }
 
+@media only screen and (max-width: 600px) {
+  .callout {
+    width: 90vw;
+  }
+}
+
 .profilePic {
   margin: 20px;
   max-width: 80vw;
 }
 
 .match {
-  margin-top: 20px;
+  margin-top: 50px;
 }

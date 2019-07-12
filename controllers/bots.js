@@ -49,7 +49,7 @@ module.exports = {
       // host: "localhost",
       // port: 8080,
       host: "167.99.235.109",
-      path: "/accounts",
+      path: "/matches",
       method: "GET",
       headers: {
         "Auth-Token": process.env.AUTH_TOKEN

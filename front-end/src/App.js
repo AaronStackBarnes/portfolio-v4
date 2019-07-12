@@ -149,8 +149,7 @@ class App extends Component {
   };
 
   botFetcher = async type => {
-    let response = await axios.get(server + "/bots");
-
+    let response;
     if (
       response &&
       type === "getBots" &&
@@ -158,6 +157,8 @@ class App extends Component {
       response.data.result &&
       response.data.result.accounts
     ) {
+      response = await axios.get(server + "/bots");
+
       this.setState({
         messages: [
           ...this.state.messages,
@@ -175,6 +176,7 @@ class App extends Component {
       response.data.result &&
       response.data.result.accounts
     ) {
+      response = await axios.get(server + "/matches");
       this.setState({
         messages: [
           ...this.state.messages,
