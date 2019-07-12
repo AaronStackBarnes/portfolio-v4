@@ -9,7 +9,12 @@ const Bot = bot => {
       <p>Birth Date: {birth_date}</p>
       <p>Location: {`${pos_info.city.name} ${pos_info.state.name}`}</p>
       {photos.map(photo => (
-        <img alt="bot profile" className="profilePic" src={photo.url} />
+        <img
+          key={photo.url}
+          alt="bot profile"
+          className="profilePic"
+          src={photo.url}
+        />
       ))}
     </div>
   );

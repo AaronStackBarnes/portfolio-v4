@@ -19,13 +19,18 @@ const Match = match => {
       <p>bio: {bio}</p>
       <p>harassmentScore: {harassmentScore}</p>
       {photos.map(photo => (
-        <img alt="bot profile" className="profilePic" src={photo.url} />
+        <img
+          key={photo.url}
+          alt="bot profile"
+          className="profilePic"
+          src={photo.url}
+        />
       ))}
       <div className="messageBox">
-        {timeSortedMessages.map(message => (
-          <p>{`${message.from === botTinderId ? botName : name}: ${
-            message.message
-          }`}</p>
+        {timeSortedMessages.map((message, i) => (
+          <p key={message.from + i}>{`${
+            message.from === botTinderId ? botName : name
+          }: ${message.message}`}</p>
         ))}
       </div>
     </div>
