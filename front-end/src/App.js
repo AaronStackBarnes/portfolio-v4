@@ -5,6 +5,7 @@ import Portfolio from "./Portfolio";
 import startUpText from "./startUpText";
 import SeeSoundCallout from "./SeeSoundCallout";
 import Bot from "./Bot";
+import BotMenu from "./BotMenu";
 import Activity from "./Activity";
 import asb from "./img/asb.png";
 import "./App.css";
@@ -28,7 +29,7 @@ class App extends Component {
     this.toggleLoadingText();
     setTimeout(() => {
       this.displayBoot();
-    }, 5000);
+    }, 4000);
   }
 
   toggleLoadingText = () => {
@@ -61,7 +62,7 @@ class App extends Component {
         loadingText: "Loaded. Thanks for scrolling back up."
       });
       this.typewriter("Well are you going to say hello...");
-    }, 11000);
+    }, 10000);
   };
 
   displayBoot = () => {
@@ -133,12 +134,35 @@ class App extends Component {
         this.setState({
           messages: [...this.state.messages, <Portfolio />]
         });
-      } else if (resText === "getBots") {
-        this.botFetcher("getBots");
-      } else if (resText === "activitiesGet") {
-        this.botFetcher("activities");
-      } else if (resText === "postBot") {
-        this.setState({ botMakerStep: 1 }, this.botCreator);
+      } else if (resText === "activateBotNetwork") {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            <BotMenu
+              startBotMaker={() => {
+                this.setState({ botMakerStep: 1 }, this.botCreator);
+              }}
+              getBots={() => {
+                this.botFetcher("activities");
+              }}
+              getMatches={() => {
+                this.botFetcher("activities");
+              }}
+              exit={() => {
+                this.setState({
+                  messages: [
+                    ...startUpText
+                      .split("[")
+                      .map((lineOfText, i) => (
+                        <p key={Math.random() + i}>[{lineOfText}</p>
+                      )),
+                    <SeeSoundCallout key={Math.random()} />
+                  ]
+                });
+              }}
+            />
+          ]
+        });
       } else {
         this.typewriter(resText);
         this.chatBox.scrollIntoView();
