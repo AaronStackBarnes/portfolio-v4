@@ -12,7 +12,6 @@ module.exports = {
         "Auth-Token": process.env.AUTH_TOKEN
       }
     };
-
     let result = await sendRequest(options);
     res.status(200).json({ result: result });
   },

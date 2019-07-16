@@ -18,8 +18,8 @@ const startUpMessages = [
   <SeeSoundCallout key={Math.random()} />
 ];
 
-const server = "https://aaron-stack.herokuapp.com";
-// const server = "http://localhost:3030";
+// const server = "https://aaron-stack.herokuapp.com";
+const server = "http://localhost:3030";
 
 class App extends Component {
   state = {
@@ -145,6 +145,7 @@ class App extends Component {
 
   BotMenuWithProps = () => (
     <BotMenu
+      key={Math.random()}
       startBotMaker={() => {
         this.setState({ botMakerStep: 1 }, this.botCreator);
       }}
@@ -170,7 +171,7 @@ class App extends Component {
 
   botFetcher = async type => {
     let response = await axios.get(`${server}/${type}`);
-
+    console.log(response.data);
     if (!response.data || !response.data.result) {
       return;
     }

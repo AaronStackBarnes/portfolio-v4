@@ -1,6 +1,6 @@
 const http = require("http");
 
-module.exports.sendRequest = (options, data) => {
+module.exports = (options, data) => {
   return new Promise(function(resolve, reject) {
     const req = http.request(options, resp => {
       let result = "";
