@@ -1,6 +1,9 @@
 const bodyParser = require("body-parser");
 const processNewMessage = require("./controllers/processNewMessage");
 const bots = require("./controllers/bots");
+const matches = require("./controllers/matches");
+const dashboard = require("./controllers/dashboard");
+const reports = require("./controllers/reports");
 
 const express = require("express");
 const app = express();
@@ -22,5 +25,6 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 app.post("/messages", processNewMessage);
 app.get("/bots", bots.get);
 app.post("/bots", bots.post);
-app.get("/messages", bots.messages);
-app.get("/stats", bots.stats);
+app.get("/matches", matches.get);
+app.get("/reports", reports.get);
+app.get("/dashboard", dashboard.get);

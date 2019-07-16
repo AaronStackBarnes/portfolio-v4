@@ -6,7 +6,7 @@ class BotMenu extends Component {
       <div className="callout" style={{ borderColor: "green" }}>
         <p>
           <a
-            href="#"
+            href="www.aboutblank.com"
             onClick={e => {
               e.preventDefault();
               this.props.getBots();
@@ -17,7 +17,7 @@ class BotMenu extends Component {
         </p>
         <p>
           <a
-            href="#"
+            href="www.aboutblank.com"
             onClick={e => {
               e.preventDefault();
               this.props.startBotMaker();
@@ -28,27 +28,24 @@ class BotMenu extends Component {
         </p>
         <p>
           <a
-            href="#"
+            href="www.aboutblank.com"
             onClick={e => {
               e.preventDefault();
               this.props.getMatches();
             }}
           >
-            Matches
+            Show Matches
           </a>
         </p>
         <p>
-          <a href="#">Reports - Under Construction</a>
+          <a href="www.aboutblank.com">Show Reports - Under Construction</a>
         </p>
         <p>
-          <a href="#">Statistics - Under Construction</a>
-        </p>
-        <p>
-          <a href="#">Heat Map - Under Construction</a>
+          <a href="www.aboutblank.com">Open Dashboard - Under Construction</a>
         </p>
         <p>
           <a
-            href="#"
+            href="www.aboutblank.com"
             onClick={e => {
               e.preventDefault();
               this.props.exit();

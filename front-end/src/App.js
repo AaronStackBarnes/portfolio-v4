@@ -2,13 +2,21 @@ import React, { Component } from "react";
 import axios from "axios";
 import Resume from "./Resume";
 import Portfolio from "./Portfolio";
-import startUpText from "./startUpText";
 import SeeSoundCallout from "./SeeSoundCallout";
 import Bot from "./Bot";
 import BotMenu from "./BotMenu";
 import Activity from "./Activity";
 import asb from "./img/asb.png";
 import "./App.css";
+
+import startUpText from "./startUpText";
+
+const startUpMessages = [
+  ...startUpText
+    .split("[")
+    .map((lineOfText, i) => <p key={Math.random() + i}>[{lineOfText}</p>),
+  <SeeSoundCallout key={Math.random()} />
+];
 
 const server = "https://aaron-stack.herokuapp.com";
 // const server = "http://localhost:3030";
@@ -66,27 +74,16 @@ class App extends Component {
   };
 
   displayBoot = () => {
-    let startUpArray = startUpText.split("[");
     let interval = 20;
-    startUpArray.forEach((lineOfText, i) => {
+    startUpMessages.forEach((message, i) => {
       setTimeout(() => {
         this.setState({
-          messages: [...this.state.messages, <p key={i}>[{lineOfText}</p>]
+          messages: [...this.state.messages, message]
         });
 
         this.chatBox.scrollIntoView();
       }, i * interval);
     });
-
-    setTimeout(() => {
-      this.setState({
-        messages: [
-          ...this.state.messages,
-          <SeeSoundCallout key={startUpArray.length} />
-        ]
-      });
-      this.chatBox.scrollIntoView();
-    }, startUpArray.length * interval);
   };
 
   handleTextChange = event => {
@@ -117,7 +114,6 @@ class App extends Component {
       this.botCreator();
     }
   };
-
   submitMessageToServer = async message => {
     try {
       const response = await axios.post(server + "/messages", {
@@ -136,32 +132,7 @@ class App extends Component {
         });
       } else if (resText === "activateBotNetwork") {
         this.setState({
-          messages: [
-            ...this.state.messages,
-            <BotMenu
-              startBotMaker={() => {
-                this.setState({ botMakerStep: 1 }, this.botCreator);
-              }}
-              getBots={() => {
-                this.botFetcher("activities");
-              }}
-              getMatches={() => {
-                this.botFetcher("activities");
-              }}
-              exit={() => {
-                this.setState({
-                  messages: [
-                    ...startUpText
-                      .split("[")
-                      .map((lineOfText, i) => (
-                        <p key={Math.random() + i}>[{lineOfText}</p>
-                      )),
-                    <SeeSoundCallout key={Math.random()} />
-                  ]
-                });
-              }}
-            />
-          ]
+          messages: [...this.state.messages, this.BotMenuWithProps()]
         });
       } else {
         this.typewriter(resText);
@@ -172,48 +143,77 @@ class App extends Component {
     }
   };
 
+  BotMenuWithProps = () => (
+    <BotMenu
+      startBotMaker={() => {
+        this.setState({ botMakerStep: 1 }, this.botCreator);
+      }}
+      getBots={() => {
+        this.botFetcher("bots");
+      }}
+      getReports={() => {
+        this.botFetcher("reports");
+      }}
+      getDashboard={() => {
+        this.botFetcher("dashboard");
+      }}
+      getMatches={() => {
+        this.botFetcher("matches");
+      }}
+      exit={() => {
+        this.setState({
+          messages: startUpMessages
+        });
+      }}
+    />
+  );
+
   botFetcher = async type => {
-    let response;
-    if (type === "getBots") {
-      response = await axios.get(server + "/bots");
-    } else if (type === "activities") {
-      response = await axios.get(server + "/messages");
+    let response = await axios.get(`${server}/${type}`);
+
+    if (!response.data || !response.data.result) {
+      return;
     }
 
-    if (
-      response &&
-      type === "getBots" &&
-      response.data &&
-      response.data.result &&
-      response.data.result.accounts
-    ) {
-      response = await axios.get(server + "/bots");
-
+    if (response && type === "bots" && response.data.result.accounts) {
       this.setState({
         messages: [
-          ...this.state.messages,
+          ...startUpMessages,
           ...response.data.result.accounts.map((account, i) => (
             <Bot key={`${account._id}_${+new Date()}`} {...account} />
-          ))
+          )),
+          this.BotMenuWithProps()
         ]
       });
     }
 
-    if (
-      response &&
-      type === "activities" &&
-      response.data &&
-      response.data.result &&
-      response.data.result.accounts
-    ) {
+    if (response && type === "matches" && response.data.result.accounts) {
       this.setState({
         messages: [
-          ...this.state.messages,
+          ...startUpMessages,
           ...response.data.result.accounts.map((account, i) => (
             <Activity key={`${account._id}_${+new Date()}`} {...account} />
-          ))
+          )),
+          this.BotMenuWithProps()
         ]
       });
+    }
+
+    if (response && type === "reports" && response.data.result.accounts) {
+      this.setState({
+        messages: [
+          ...startUpMessages,
+          ...response.data.result.accounts.map((account, i) => (
+            <Activity key={`${account._id}_${+new Date()}`} {...account} />
+          )),
+          this.BotMenuWithProps()
+        ]
+      });
+    }
+
+    if (response && type === "dashboard") {
+      console.log("dashboard");
+      console.log(response);
     }
   };
 
