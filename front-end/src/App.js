@@ -303,8 +303,7 @@ class App extends Component {
           <div className="content clearfix">
             <header className="site clearfix">
               <img src={asb} alt="ASB ACII" id="logo-v" />
-              <h4>Full Stack Solutions (MM)</h4>
-              <p>----------------------------------------</p>
+              <h4 className="dottedBottom">Machine Man AI Solutions</h4>
               <p>TERMINAL v 4.0.0</p>
               <p>{new Date().toString()}</p>
               <p style={{ visibility: this.state.loadingTextVisibility }}>

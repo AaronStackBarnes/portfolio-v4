@@ -429,3 +429,8 @@ a.button:hover {
 .match {
   margin-top: 50px;
 }
+
+.dottedBottom {
+  padding-bottom: 25px;
+  border-bottom: 18px dotted green;
+}
