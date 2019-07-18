@@ -2,14 +2,14 @@ import React, { Fragment } from "react";
 import moment from "moment";
 
 const Match = match => {
-  let { person, messages, harassmentScore, botTinderId, botName } = match;
+  let { fullProfile, messages, harassmentScore, botTinderId, botName } = match;
   let name;
   let bio;
   let photos;
-  if (person) {
-    name = person.name;
-    bio = person.bio;
-    photos = person.photos;
+  if (fullProfile) {
+    name = fullProfile.name || "???";
+    bio = fullProfile.bio || "???";
+    photos = fullProfile.photos || [];
   } else {
     name = "???";
     bio = "???";

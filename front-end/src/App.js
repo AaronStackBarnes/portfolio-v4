@@ -114,6 +114,7 @@ class App extends Component {
       this.botCreator();
     }
   };
+
   submitMessageToServer = async message => {
     try {
       const response = await axios.post(server + "/messages", {

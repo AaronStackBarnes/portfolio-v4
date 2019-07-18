@@ -38,7 +38,15 @@ class BotMenu extends Component {
           </a>
         </p>
         <p>
-          <a href="www.aboutblank.com">Show Reports - Under Construction</a>
+          <a
+            href="www.aboutblank.com"
+            onClick={e => {
+              e.preventDefault();
+              this.props.getReports();
+            }}
+          >
+            Show Reports
+          </a>
         </p>
         <p>
           <a href="www.aboutblank.com">Open Dashboard - Under Construction</a>
