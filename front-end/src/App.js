@@ -163,6 +163,7 @@ class App extends Component {
       }}
       exit={() => {
         this.setState({
+          botMode: false,
           messages: startUpMessages
         });
       }}
@@ -171,7 +172,6 @@ class App extends Component {
 
   botFetcher = async type => {
     let response = await axios.get(`${server}/${type}`);
-    console.log(response.data);
     if (!response.data || !response.data.result) {
       return;
     }
@@ -179,36 +179,39 @@ class App extends Component {
     if (response && type === "bots" && response.data.result.accounts) {
       this.setState({
         messages: [
-          ...startUpMessages,
+          this.BotMenuWithProps(),
           ...response.data.result.accounts.map((account, i) => (
             <Bot key={`${account._id}_${+new Date()}`} {...account} />
           )),
           this.BotMenuWithProps()
-        ]
+        ],
+        botMode: true
       });
     }
 
     if (response && type === "matches" && response.data.result.accounts) {
       this.setState({
         messages: [
-          ...startUpMessages,
+          this.BotMenuWithProps(),
           ...response.data.result.accounts.map((account, i) => (
             <Activity key={`${account._id}_${+new Date()}`} {...account} />
           )),
           this.BotMenuWithProps()
-        ]
+        ],
+        botMode: true
       });
     }
 
     if (response && type === "reports" && response.data.result.accounts) {
       this.setState({
         messages: [
-          ...startUpMessages,
+          this.BotMenuWithProps(),
           ...response.data.result.accounts.map((account, i) => (
             <Activity key={`${account._id}_${+new Date()}`} {...account} />
           )),
           this.BotMenuWithProps()
-        ]
+        ],
+        botMode: true
       });
     }
 
@@ -216,6 +219,8 @@ class App extends Component {
       console.log("dashboard");
       console.log(response);
     }
+
+    window.scrollTo(0, 0);
   };
 
   botCreator = async () => {
@@ -303,16 +308,52 @@ class App extends Component {
           <div className="content clearfix">
             <header className="site clearfix">
               <img src={asb} alt="ASB ACII" id="logo-v" />
-              <h4 className="dottedBottom">Machine Man AI Solutions</h4>
-              <p>TERMINAL v 4.0.0</p>
-              <p>{new Date().toString()}</p>
-              <p style={{ visibility: this.state.loadingTextVisibility }}>
+              <h4
+                style={{
+                  display: this.state.botMode ? "none" : "block"
+                }}
+                className="dottedBottom"
+              >
+                Machine Man AI Solutions
+              </h4>
+              <p
+                style={{
+                  display: this.state.botMode ? "none" : "block"
+                }}
+              >
+                TERMINAL v 4.0.0
+              </p>
+              <p
+                style={{
+                  display: this.state.botMode ? "none" : "block"
+                }}
+              >
+                {new Date().toString()}
+              </p>
+              <p
+                style={{
+                  visibility: this.state.loadingTextVisibility,
+                  display: this.state.botMode ? "none" : "block"
+                }}
+              >
                 - {this.state.loadingText} -
               </p>
             </header>
 
-            <p>The Allied Master Computer (AM) - INIT INTELLIGENCE</p>
-            <p>System Administrator (SYSADM) - Bot Name: {+new Date()}</p>
+            <p
+              style={{
+                display: this.state.botMode ? "none" : "block"
+              }}
+            >
+              The Allied Master Computer (AM) - INIT INTELLIGENCE
+            </p>
+            <p
+              style={{
+                display: this.state.botMode ? "none" : "block"
+              }}
+            >
+              System Administrator (SYSADM) - Bot Name: {+new Date()}
+            </p>
 
             <p className="clear">
               <br />
