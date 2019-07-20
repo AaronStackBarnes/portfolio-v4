@@ -5,12 +5,13 @@ import Portfolio from "./Portfolio";
 import SeeSoundCallout from "./SeeSoundCallout";
 import Bot from "./Bot";
 import BotMenu from "./BotMenu";
-import Activity from "./Activity";
+import Match from "./Match";
 import asb from "./img/asb.png";
 import "./App.css";
 
 import startUpText from "./startUpText";
 
+const matchesPerPage = 5;
 const startUpMessages = [
   ...startUpText
     .split("[")
@@ -75,6 +76,10 @@ class App extends Component {
 
   displayBoot = () => {
     let interval = 20;
+    // this.setState({
+    //   messages: [this.BotMenuWithProps()]
+    // });
+
     startUpMessages.forEach((message, i) => {
       setTimeout(() => {
         this.setState({
@@ -144,43 +149,70 @@ class App extends Component {
     }
   };
 
-  BotMenuWithProps = () => (
-    <BotMenu
-      key={Math.random()}
-      startBotMaker={() => {
-        this.setState({ botMakerStep: 1 }, this.botCreator);
-      }}
-      getBots={() => {
-        this.botFetcher("bots");
-      }}
-      getReports={() => {
-        this.botFetcher("reports");
-      }}
-      getDashboard={() => {
-        this.botFetcher("dashboard");
-      }}
-      getMatches={() => {
-        this.botFetcher("matches");
-      }}
-      exit={() => {
-        this.setState({
-          botMode: false,
-          messages: startUpMessages
-        });
-      }}
-    />
-  );
+  BotMenuWithProps = (pageCounter = {}) => {
+    let matchesPage = pageCounter.matchesPage || 1;
+    let reportsPage = pageCounter.reportsPage || 1;
 
-  botFetcher = async type => {
-    let response = await axios.get(`${server}/${type}`);
+    return (
+      <BotMenu
+        key={Math.random()}
+        matchesPage={matchesPage}
+        reportsPage={reportsPage}
+        startBotMaker={() => {
+          this.setState({ botMakerStep: 1 }, this.botCreator);
+        }}
+        getBots={() => {
+          this.botFetcher("bots");
+        }}
+        getReports={() => {
+          this.botFetcher("reports", {
+            reportsPage: reportsPage,
+            matchesPage: matchesPage
+          });
+        }}
+        getDashboard={() => {
+          this.botFetcher("dashboard");
+        }}
+        getMatches={() => {
+          this.botFetcher("matches", {
+            reportsPage: reportsPage,
+            matchesPage: matchesPage
+          });
+        }}
+        exit={() => {
+          this.setState({
+            botMode: false,
+            messages: startUpMessages
+          });
+        }}
+      />
+    );
+  };
+
+  botFetcher = async (type, pageCounter = {}) => {
+    let matchesPage = pageCounter.matchesPage || 1;
+    let reportsPage = pageCounter.reportsPage || 1;
+
+    let url;
+    if (type === "matches") {
+      url = `${server}/${type}?pageNumber=${matchesPage}&nPerPage=${matchesPerPage}`;
+    } else if (type === "reports") {
+      url = `${server}/${type}?pageNumber=${reportsPage}&nPerPage=${matchesPerPage}`;
+    } else {
+      url = `${server}/${type}`;
+    }
+
+    let response = await axios.get(url);
+
     if (!response.data || !response.data.result) {
       return;
     }
+    console.log(response);
 
     if (response && type === "bots" && response.data.result.accounts) {
       this.setState({
         messages: [
-          this.BotMenuWithProps(),
+          ...this.state.messages,
           ...response.data.result.accounts.map((account, i) => (
             <Bot key={`${account._id}_${+new Date()}`} {...account} />
           )),
@@ -190,27 +222,39 @@ class App extends Component {
       });
     }
 
-    if (response && type === "matches" && response.data.result.accounts) {
+    if (response && type === "matches" && response.data.result.matches) {
+      if (response.data.result.matches.length >= matchesPerPage) {
+        matchesPage++;
+      } else {
+        matchesPage = 1;
+      }
+
       this.setState({
         messages: [
-          this.BotMenuWithProps(),
-          ...response.data.result.accounts.map((account, i) => (
-            <Activity key={`${account._id}_${+new Date()}`} {...account} />
+          ...this.state.messages,
+          ...response.data.result.matches.map((match, i) => (
+            <Match key={`${match._id}_${+new Date()}`} {...match} />
           )),
-          this.BotMenuWithProps()
+          this.BotMenuWithProps({ matchesPage: matchesPage })
         ],
         botMode: true
       });
     }
 
-    if (response && type === "reports" && response.data.result.accounts) {
+    if (response && type === "reports" && response.data.result.reports) {
+      if (response.data.result.reports.length >= matchesPerPage) {
+        reportsPage++;
+      } else {
+        reportsPage = 1;
+      }
+
       this.setState({
         messages: [
-          this.BotMenuWithProps(),
-          ...response.data.result.accounts.map((account, i) => (
-            <Activity key={`${account._id}_${+new Date()}`} {...account} />
+          ...this.state.messages,
+          ...response.data.result.reports.map((report, i) => (
+            <Match key={`${report._id}_${+new Date()}`} {...report} />
           )),
-          this.BotMenuWithProps()
+          this.BotMenuWithProps({ reportsPage: reportsPage })
         ],
         botMode: true
       });
@@ -220,8 +264,6 @@ class App extends Component {
       console.log("dashboard");
       console.log(response);
     }
-
-    window.scrollTo(0, 0);
   };
 
   botCreator = async () => {

@@ -20,21 +20,10 @@ class BotMenu extends Component {
             href="www.aboutblank.com"
             onClick={e => {
               e.preventDefault();
-              this.props.startBotMaker();
-            }}
-          >
-            Make a Bot
-          </a>
-        </p>
-        <p>
-          <a
-            href="www.aboutblank.com"
-            onClick={e => {
-              e.preventDefault();
               this.props.getMatches();
             }}
           >
-            Show Matches
+            Show {this.props.matchesPage > 1 ? "More" : ""} Matches
           </a>
         </p>
         <p>
@@ -45,11 +34,22 @@ class BotMenu extends Component {
               this.props.getReports();
             }}
           >
-            Show Reports
+            Show {this.props.reportsPage > 1 ? "More" : ""} Reports
           </a>
         </p>
         <p>
           <a href="www.aboutblank.com">Open Dashboard - Under Construction</a>
+        </p>
+        <p>
+          <a
+            href="www.aboutblank.com"
+            onClick={e => {
+              e.preventDefault();
+              this.props.startBotMaker();
+            }}
+          >
+            Make a Bot
+          </a>
         </p>
         <p>
           <a
